@@ -37,6 +37,7 @@ class Bdd:
             print("Erreur =>", erreur)
 
     def updateTache(self, idTache, kwargs):
+        pass
 
 
 
