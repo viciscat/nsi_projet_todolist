@@ -11,6 +11,7 @@ import sqlite3
 # La classe
 class Bdd:
     """Classe pour faire le lien entre la base de données SQLite et le programme"""
+
     # TODO : ajoutez le code nécessaire à la classe Bdd
     def __init__(self):
         """
@@ -25,6 +26,12 @@ class Bdd:
         FROM Taches
         """).fetchall()
 
+    def getCategories(self):
+        return self.cursor.execute("""
+                SELECT nom
+                FROM Categorie
+                """).fetchall()
+
     def newTache(self, nom, idCategorie, idEtat, idPriorite, dateLimite):
         try:
             self.cursor.execute("""
@@ -36,9 +43,31 @@ class Bdd:
         except sqlite3.Error as erreur:
             print("Erreur =>", erreur)
 
-    def updateTache(self, idTache, kwargs):
-        pass
+    def updateTache(self, idTache, data: dict):
+        """
+        Met a jour la tache avec l'id idTache, avec les données data.
 
+        data est un dictionnaire avec la clé représantant le nom de l'attribut et la valeur,
+        la valeur de l'attribut
+        """
+        try:
+            set_params = ",".join([f"{k}=:{k}" for k in data.keys()])
+            command = f"UPDATE Taches SET {set_params} WHERE idTache = :idt"
+            data["idt"] = idTache
+            self.cnx.execute(command, data)
+            self.cnx.commit()
+
+        except sqlite3.Error as erreur:
+            print("Erreur =>", erreur)
+
+    def deleteTache(self, idTache):
+        try:
+            self.cnx.execute("""
+            DELETE FROM Taches
+            WHERE idTache = ?
+            """, (idTache,))
+        except sqlite3.Error as erreur:
+            print("Erreur =>", erreur)
 
 
 # Mise au point de la classe Bdd seule
@@ -47,3 +76,4 @@ if __name__ == "__main__":
     test = Bdd()
     print(test.getTaches())
     # test.newTache("suuuus", 2, 1, 1, "2500/10/20")
+    test.updateTache(3, {"dateLimite": "2050/09/15"})
