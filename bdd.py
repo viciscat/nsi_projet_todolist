@@ -20,11 +20,17 @@ class Bdd:
         self.cnx = sqlite3.connect("bdd/todo.sqlite")
         self.cursor = self.cnx.cursor()
 
-    def getTaches(self):
-        return self.cursor.execute("""
+    def getTaches(self, filtre=True):
+        return (self.cursor.execute("""
         SELECT *
         FROM Taches
+        WHERE idEtat != 3
         """).fetchall()
+                if filtre else
+                self.cursor.execute("""
+        SELECT *
+        FROM Taches
+        """).fetchall())
 
     def getCategories(self):
         return self.cursor.execute("""
@@ -75,5 +81,6 @@ if __name__ == "__main__":
     # TODO : ajoutez le code pour tester et mettre au point votre classe Bdd
     test = Bdd()
     print(test.getTaches())
+    print(test.getTaches(filtre=False))
     # test.newTache("suuuus", 2, 1, 1, "2500/10/20")
-    test.updateTache(3, {"dateLimite": "2050/09/15"})
+    # test.updateTache(3, {"dateLimite": "2050/09/15"})

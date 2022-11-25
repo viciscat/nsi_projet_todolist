@@ -8,10 +8,17 @@ gérant une liste de tâches à faire
 from flask import *
 import bdd
 
+class Tache:
+    def __init__(self):
+        # TODO: Faire la class! Si pas d'idée de méthodes, juste faire un dico
+        pass
 
 # Création des objets Flask et Bdd
 app = Flask(__name__)
 database = bdd.Bdd()
+
+taches = []
+
 
 
 # Les routes associées aux fonctions
