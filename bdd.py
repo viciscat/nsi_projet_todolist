@@ -38,12 +38,12 @@ class Bdd:
                 FROM Categorie
                 """).fetchall()
 
-    def newTache(self, nom, idCategorie, idEtat, idPriorite, dateLimite):
+    def newTache(self, nom, description, idCategorie, idEtat, idPriorite, dateLimite):
         try:
             self.cursor.execute("""
-            INSERT INTO Taches (nom, idCategorie, idEtat, idPriorite, dateLimite)
+            INSERT INTO Taches (nom, description, idCategorie, idEtat, idPriorite, dateLimite)
             VALUES (?, ?, ?, ?, ?)
-            """, (nom, idCategorie, idEtat, idPriorite, dateLimite))
+            """, (nom, description, idCategorie, idEtat, idPriorite, dateLimite))
             self.cnx.commit()
 
         except sqlite3.Error as erreur:
@@ -82,5 +82,5 @@ if __name__ == "__main__":
     test = Bdd()
     print(test.getTaches())
     print(test.getTaches(filtre=False))
-    # test.newTache("suuuus", 2, 1, 1, "2500/10/20")
+    # test.newTache("suuuus", "bruh", 2, 1, 1, "2500/10/20")
     # test.updateTache(3, {"dateLimite": "2050/09/15"})
