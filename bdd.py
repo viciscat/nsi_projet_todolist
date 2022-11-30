@@ -42,7 +42,7 @@ class Bdd:
         try:
             self.cursor.execute("""
             INSERT INTO Taches (nom, description, idCategorie, idEtat, idPriorite, dateLimite)
-            VALUES (?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?)
             """, (nom, description, idCategorie, idEtat, idPriorite, dateLimite))
             self.cnx.commit()
 
