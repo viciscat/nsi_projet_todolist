@@ -5,6 +5,7 @@ gérant une liste de tâches à faire
 """
 
 # Librairie(s) utilisée(s)
+
 from flask import *
 import bdd
 
@@ -24,6 +25,7 @@ class Tache:
 
 # Création des objets Flask et Bdd
 app = Flask(__name__)
+app.secret_key = b"1r9)G^A3vTfX4qtwsV#M+Rjjd@JR$+Wa.nt8dz.jhZ_j3M8-(zzkkL^Z5Y3cm2R"
 database = bdd.Bdd()
 
 taches = [Tache(*i) for i in database.getTaches()]
@@ -32,6 +34,7 @@ taches = [Tache(*i) for i in database.getTaches()]
 # Les routes associées aux fonctions
 @app.route("/")
 def accueillir():
+    flash("Bienvenue sur L'application ToDoList")
     """Gère l'accueil des utilisateurs"""
     print(taches)
 
