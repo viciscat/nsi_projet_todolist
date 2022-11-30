@@ -17,7 +17,7 @@ class Bdd:
         """
         Base de donnée vla gaming pour le projet todolist
         """
-        self.cnx = sqlite3.connect("bdd/todo.sqlite")
+        self.cnx = sqlite3.connect("bdd/todo.sqlite", check_same_thread=False)
         self.cursor = self.cnx.cursor()
 
     def getTaches(self, filtre=True):
