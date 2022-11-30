@@ -41,6 +41,10 @@ def accueillir():
     # Rendu de la vue
     return render_template("accueil.html")
 
+@app.route("/afficher")
+def afficher():
+    return render_template('afficher.html', taches=database.getTaches())
+
 
 # TODO : ajoutez de nouvelles routes associées à des fonctions "contrôleur" Python
 

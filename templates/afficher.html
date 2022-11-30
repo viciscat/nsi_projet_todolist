@@ -1,0 +1,46 @@
+<!-- On hérite du template de base -->
+{% extends "base.html" %}
+<!-- On ajoute notre propre contenu -->
+{% block contenu %}
+<style>
+.myDiv {
+  border: 5px outset green;
+  background-color: #6DB270;
+  text-align: center;
+}
+</style>
+
+<h1>da backerei</h1>
+<p><strong>ALED</strong></p>
+{%for tache in taches%}
+<div class="myDiv">
+  <div class="row">
+    <div class="col-1">
+      {{tache[0]}}
+    </div>
+    <div class="col-3">
+      {{tache[1]}}
+    </div>
+    <div class="col-3">
+      {{tache[2]}}
+    </div>
+      <div class="col">
+      {{tache[3]}}
+    </div>
+      <div class="col">
+      {{tache[4]}}
+    </div>
+      <div class="col">
+      {{tache[5]}}
+    </div>
+      <div class="col">
+      {{tache[6]}}
+    </div>
+      <div class="col">
+      {{tache[7]}}
+    </div>
+  </div>
+</div>
+{%endfor%}
+
+{% endblock %}
