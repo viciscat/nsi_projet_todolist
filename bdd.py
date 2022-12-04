@@ -6,6 +6,7 @@ gérant une liste de tâches à faire
 
 # Librairie(s) utilisée(s)
 import sqlite3
+import Tache
 
 
 # La classe
@@ -21,7 +22,7 @@ class Bdd:
         self.cursor = self.cnx.cursor()
 
     def getTaches(self, filtre=True):
-        return (self.cursor.execute("""
+        data = (self.cursor.execute("""
         SELECT *
         FROM Taches
         WHERE idEtat != 3
@@ -31,12 +32,25 @@ class Bdd:
         SELECT *
         FROM Taches
         """).fetchall())
+        return [Tache.Tache(*i, self) for i in data]
 
     def getCategories(self):
         return self.cursor.execute("""
                 SELECT nom
                 FROM Categorie
                 """).fetchall()
+
+    def getEtats(self):
+        return self.cursor.execute("""
+        SELECT nom
+        FROM Etat
+        """).fetchall()
+
+    def getPriorites(self):
+        return self.cursor.execute("""
+        SELECT nom
+        FROM Priorite
+        """).fetchall()
 
     def newTache(self, nom, description, idCategorie, idEtat, idPriorite, dateLimite):
         try:
