@@ -42,6 +42,19 @@ def new_task():
 def modifier_tache():
     return render_template('modifier-tache.html', taches=database.getTaches())
 
+@app.route("/priorites")
+def affichage_priorites():
+    return render_template('priorites.html', priorites=database.getEtats())
+
+@app.route("/categories")
+def affichage_categories():
+    return render_template('categories.html', categories=database.getCategories())
+
+@app.route("/etats")
+def affichage_etats():
+    return render_template('etats.html', etats=database.getEtats())
+
+
 @app.route('/supprimer/<idTache>')
 def supprimer(idTache):
     pass

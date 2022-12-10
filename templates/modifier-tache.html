@@ -9,7 +9,7 @@
 <form>
   <div class="form-group">
     <label for="exampleInputEmail1">nom</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" value="{{taches[1]}}" aria-describedby="emailHelp" placeholder="Entrer le nom de votre tache">
+    <input type="email" class="form-control" id="exampleInputEmail1" value="{{taches.nom}}" aria-describedby="emailHelp" placeholder="Entrer le nom de votre tache">
     <small id="emailHelp" class="form-text text-muted">c'est rigolo</small>
   </div>
     <small id="emailHelp" class="form-text text-muted">idCategorie</small>
@@ -27,7 +27,7 @@
 
     <div class="form-group">
     <label for="date_limite">dateLimite</label>
-    <input type="email" class="form-control" id="date_limite" placeholder="Entrer la date limite de votre tache">
+    <input type="email" class="form-control" id="date_limite" value="{{taches.dateLimite}}" placeholder="Entrer la date limite de votre tache">
   </div>
     <div class="form-group">
     <label for="description">description</label>
