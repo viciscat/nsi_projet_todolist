@@ -35,23 +35,15 @@ class Bdd:
         """).fetchall())
         return [Tache.Tache(*i, self) for i in data]
 
+    # Ca donne une liste de tuple avec un élément (("truc",), ("machin",), ...) donc on doit faire une petite manip
     def getCategories(self):
-        return self.cursor.execute("""
-                SELECT nom
-                FROM Categorie
-                """).fetchall()
+        return [i[0] for i in self.cursor.execute("""SELECT nom FROM Categorie""").fetchall()]
 
     def getEtats(self):
-        return self.cursor.execute("""
-        SELECT nom
-        FROM Etat
-        """).fetchall()
+        return [i[0] for i in self.cursor.execute("""SELECT nom FROM Etat""").fetchall()]
 
     def getPriorites(self):
-        return self.cursor.execute("""
-        SELECT nom
-        FROM Priorite
-        """).fetchall()
+        return [i[0] for i in self.cursor.execute("""SELECT nom FROM Priorite""").fetchall()]
 
     def newTache(self, nom, description, idCategorie, idEtat, idPriorite, dateLimite):
         try:
@@ -87,6 +79,7 @@ class Bdd:
             DELETE FROM Taches
             WHERE idTache = ?
             """, (idTache,))
+            self.cnx.commit()
         except sqlite3.Error as erreur:
             print("Erreur =>", erreur)
 

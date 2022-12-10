@@ -5,35 +5,56 @@
 <!-- On ajoute notre propre contenu -->
 {% block contenu %}
 
+    <style>
+        .label-input {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
 
-<form>
-  <div class="form-group">
-    <label for="exampleInputEmail1">nom</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" value="{{taches.nom}}" aria-describedby="emailHelp" placeholder="Entrer le nom de votre tache">
-    <small id="emailHelp" class="form-text text-muted">c'est rigolo</small>
-  </div>
-    <small id="emailHelp" class="form-text text-muted">idCategorie</small>
-    <select class="form-control">
-        <option>Travail</option>
-        <option>Maison</option>
 
-    </select>
-    <small id="emailHelp" class="form-text text-muted">idPriorite</small>
-    <select class="form-control">
-        <option>Basse</option>
-        <option>Moyenne</option>
-        <option>Haute</option>
-    </select>
+    <form action="/modifier-tache-req/{{ tache.idTache }}" method="post" class="bg-light"
+          style="padding: 10px; border-radius: 10px; box-shadow: inset -3px -3px 0 0 darkgray">
+        <div class="form-group">
+            <h1 style="text-align: center">Modifier la tache</h1>
 
-    <div class="form-group">
-    <label for="date_limite">dateLimite</label>
-    <input type="email" class="form-control" id="date_limite" value="{{taches.dateLimite}}" placeholder="Entrer la date limite de votre tache">
-  </div>
-    <div class="form-group">
-    <label for="description">description</label>
-    <input type="email" class="form-control" id="description" placeholder="entrer un courte description de votre tache">
-    </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+            <label for="nom-tache" class="label-input">Nom</label>
+            <input name="nom" type="text" class="form-control" id="nom-tache" aria-describedby="emailHelp"
+                   placeholder="Entrez le nom de votre tache" value="{{ tache.nom }}" required>
+            <small id="nomHelp" class="form-text text-muted">Nom de la tache (requis)</small>
+
+            <label for="description" class="label-input">Description</label>
+            <textarea name="description" class="form-control" id="description"
+                      placeholder="Entrez une courte description de votre tache" required>{{ tache.description|replace("\\r\\n", "\r\n") }}</textarea>
+            <small id="descriptionHelp" class="form-text text-muted">Description de la tache (requis)</small>
+
+            <label for="categorie" class="label-input">Categorie</label>
+            <select name="idCategorie" class="form-control" id="categorie" required>
+                {% for i in range(categories|length) %}
+                    <option value="{{ i + 1 }}" {% if tache.idCategorie|int == i + 1 %} selected="selected" {% endif %} >{{ categories[i] }}</option>
+                {% endfor %}
+            </select>
+            <small id="categorieHelp" class="form-text text-muted">Categorie de la tache (requis). Les catégories
+                peuvent etre changer dans l'onglet Catégories</small>
+
+            <label for="priorite" class="label-input">Description</label>
+            <select name="idPriorite" class="form-control" id="priorite" required>
+                {% for i in range(priorites|length) %}
+                    <option value="{{ i + 1 }}" {% if tache.idPriorite|int == i + 1 %} selected="selected" {% endif %} >{{ priorites[i] }}</option>
+                {% endfor %}
+            </select>
+            <small id="prioriteHelp" class="form-text text-muted">Priorite de la tache (requis). Les priorités peuvent
+                etre changer dans l'onglet Priorités</small>
+
+
+            <label for="date_limite" class="label-input">Date limite</label>
+            <input name="dateLimite" type="date" class="form-control" id="date_limite"
+                   placeholder="Entrer la date limite de votre tache" value="{{ tache.dateLimite }}" required>
+            <small id="date_limiteHelp" class="form-text text-muted">Date limite de la tache (requis).</small>
+
+
+            <button type="submit" class="btn btn-primary" style="margin-top: 20px">Modifier</button>
+        </div>
+    </form>
 
 {% endblock %}

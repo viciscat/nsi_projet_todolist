@@ -2,76 +2,101 @@
 {% extends "base.html" %}
 
 
-
-
 <!-- On ajoute notre propre contenu -->
 {% block contenu %}
-<!-- Button trigger modal -->
+    <!-- Button trigger modal -->
 
 
-<style>
-.myDiv {
-  border: 5px outset green;
-  background-color: #6DB270;
-  text-align: center;
-}
-</style>
+    <style>
+        .myDiv {
+            border: 5px outset green;
+            background-color: #6DB270;
+            text-align: center;
+        }
+    </style>
 
-<h1>Votre liste de Taches</h1>
-<p><strong>ALED</strong></p>
-{%for tache in taches%}
-<div class="myDiv">
-  <div class="row">
+    <script src="{{ url_for('static', filename='js/afficher.js') }}"></script>
 
-    <div class="col-3">
-      {{tache.nom}}
-    </div>
-    <div class="col">
-      {{tache.idCategorie}}
-    </div>
-      <div class="col">
-      {{tache.idEtat}}
-    </div>
-      <div class="col">
-      {{tache.idPriorite}}
-    </div>
-      <div class="col">
-      {{tache.dateLimite}}
-    </div>
-    <div class="col">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        Descriptions
-      </button>
 
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Description</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+    <h1>Votre liste de Taches</h1>
+    <a href="/nouvelle-tache"><button class="btn btn-primary">Créer une nouvelle tache</button></a>
+    {% for tache in taches %}
+        <div class="myDiv">
+            <div class="row">
+
+                <div class="col-3">
+                    {{ tache.nom }}
+                </div>
+                <div class="col">
+                    {{ tache.getCategorie() }}
+                </div>
+                <div class="col">
+                    {{ tache.getEtat() }}
+                </div>
+                <div class="col">
+                    {{ tache.getPriorite() }}
+                </div>
+                <div class="col">
+                    {{ tache.dateLimite }}
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#descriptionModal"
+                            data-description="{{ tache.description }}">
+                        Description
+                    </button>
+
+                </div>
+                <div class="col">
+                    <a href="/modifier-tache/{{ tache.idTache }}">
+                        <button type="button" class="btn btn-secondary">Modifier</button>
+                    </a>
+                </div>
+                <div class="col">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletionModal" data-id="{{ tache.idTache }}">Supprimer</button>
+                </div>
             </div>
-            <div class="modal-body">
-              {{tache.description}}
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
         </div>
-      </div>
-  </div>
-      <div class="col">
-        <a href="/modifier-tache">
-      <button type="button">Modifier</button>
-        </a>
+    {% endfor %}
+
+    <!-- Modal de description -->
+    <div class="modal fade" id="descriptionModal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Description</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col">
-      <button type="button">Supprimer</button>
+
+    <!-- Modal de suppresion -->
+    <div class="modal" id="deletionModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Suprrimer la Tache?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Vous êtes sur le point de supprimer cette tache pour toujours ! (Très longtemps !)</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <a class="confirm-delete" href="#"><button type="button" class="btn btn-danger">Supprimer</button></a>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-{%endfor%}
 
 {% endblock %}
