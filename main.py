@@ -34,6 +34,18 @@ def accueillir():
 def afficher():
     return render_template('afficher.html', taches=database.getTaches())
 
+@app.route('/nouvelle-tache')
+def new_task():
+    return render_template('nouvelle_tache.html', taches=database.getTaches())
+
+@app.route('/modifier-tache')
+def modifier_tache():
+    return render_template('modifier-tache.html', taches=database.getTaches())
+
+@app.route('/supprimer/<idTache>')
+def supprimer(idTache):
+    pass
+
 
 # TODO : ajoutez de nouvelles routes associées à des fonctions "contrôleur" Python
 

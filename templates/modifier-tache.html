@@ -1,0 +1,39 @@
+<!-- On hÃ©rite du template de base -->
+{% extends "base.html" %}
+
+
+<!-- On ajoute notre propre contenu -->
+{% block contenu %}
+
+
+<form>
+  <div class="form-group">
+    <label for="exampleInputEmail1">nom</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" value="{{taches[1]}}" aria-describedby="emailHelp" placeholder="Entrer le nom de votre tache">
+    <small id="emailHelp" class="form-text text-muted">c'est rigolo</small>
+  </div>
+    <small id="emailHelp" class="form-text text-muted">idCategorie</small>
+    <select class="form-control">
+        <option>Travail</option>
+        <option>Maison</option>
+
+    </select>
+    <small id="emailHelp" class="form-text text-muted">idPriorite</small>
+    <select class="form-control">
+        <option>Basse</option>
+        <option>Moyenne</option>
+        <option>Haute</option>
+    </select>
+
+    <div class="form-group">
+    <label for="date_limite">dateLimite</label>
+    <input type="email" class="form-control" id="date_limite" placeholder="Entrer la date limite de votre tache">
+  </div>
+    <div class="form-group">
+    <label for="description">description</label>
+    <input type="email" class="form-control" id="description" placeholder="entrer un courte description de votre tache">
+    </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}
