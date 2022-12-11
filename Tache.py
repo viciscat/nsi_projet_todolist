@@ -1,5 +1,5 @@
 class Tache:
-    def __init__(self, idTache, nom, description, idCategorie, idEtat, idPriorite, dateLimite, dateFin, database):
+    def __init__(self, idTache, nom, description, idCategorie, idEtat, idPriorite, dateLimite, dateFin, status, database):
         self.idTache = idTache
         self.nom = nom
         self.description = description
@@ -8,6 +8,7 @@ class Tache:
         self.idPriorite = idPriorite
         self.dateLimite = dateLimite
         self.dateFin = dateFin
+        self.status = status
         self.database = database
 
     def getCategorie(self):

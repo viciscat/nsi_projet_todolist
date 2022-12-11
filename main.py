@@ -54,7 +54,7 @@ def new_task():
 @app.route('/modifier-tache/<idTache>')
 def modifier_tache_page(idTache):
     return render_template('modifier-tache.html',
-                           tache=database.getTaches()[int(idTache)-1],
+                           tache=database.getTache(int(idTache))[0],
                            categories=database.getCategories(),
                            priorites=database.getPriorites())
 
@@ -88,6 +88,17 @@ def supprimer(idTache):
     flash("La tache a été supprimer avec succès !")
     return redirect("/afficher")
 
+@app.route('/termine-tache/<idTache>')
+def termineTache(idTache):
+    database.modifyTacheStatus(int(idTache), 1)
+    flash("La tache a été terminé avec succès !")
+    return redirect("/afficher")
+
+@app.route('/archive-tache/<idTache>')
+def archiveTache(idTache):
+    database.modifyTacheStatus(int(idTache), 2)
+    flash("La tache a été archivé avec succès !")
+    return redirect("/afficher")
 
 # TODO : ajoutez de nouvelles routes associées à des fonctions "contrôleur" Python
 

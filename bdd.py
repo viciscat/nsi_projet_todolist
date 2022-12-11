@@ -27,13 +27,22 @@ class Bdd:
         SELECT *
         FROM Taches
         WHERE idEtat != 3
+        ORDER BY dateLimite ASC
         """).fetchall()
                 if filtre else
                 self.cursor.execute("""
         SELECT *
         FROM Taches
         """).fetchall())
-        return [Tache.Tache(*i, self) for i in data]
+        [print(*i) for i in data]
+        return [Tache.Tache(*i, database=self) for i in data]
+
+    def getTache(self, id):
+        return self.cursor.execute("""
+                SELECT *
+                FROM Taches
+                WHERE idTache = ?
+                """, (id,)).fetchall()
 
     # Ca donne une liste de tuple avec un élément (("truc",), ("machin",), ...) donc on doit faire une petite manip
     def getCategories(self):
@@ -79,6 +88,17 @@ class Bdd:
             DELETE FROM Taches
             WHERE idTache = ?
             """, (idTache,))
+            self.cnx.commit()
+        except sqlite3.Error as erreur:
+            print("Erreur =>", erreur)
+
+    def modifyTacheStatus(self, idTache, status):
+        try:
+            self.cnx.execute("""
+            UPDATE Taches
+            SET status = ?
+            WHERE idTache = ?
+            """, (status,idTache,))
             self.cnx.commit()
         except sqlite3.Error as erreur:
             print("Erreur =>", erreur)

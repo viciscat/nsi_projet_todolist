@@ -35,6 +35,7 @@
 <style>
     body {
         background-color: powderblue;
+        overflow:scroll;
     }
 </style>
 <!-- Barre de navigation -->
@@ -105,7 +106,7 @@
 </div>
 
 <!-- Zone centrale de la page -->
-<div class="container" style="padding-top: 100px">
+<div class="container" style="padding-top: 100px; padding-bottom: 100px">
 
     {% block contenu %}
     {% endblock %}
@@ -115,6 +116,7 @@
 </div><!-- /.container -->
 
 <!-- Chargement des fichier Javascript de Bootstrap à la fin pour ne pas retarder la page -->
+
 
 
 </body>

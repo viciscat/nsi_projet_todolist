@@ -44,15 +44,25 @@
                             data-description="{{ tache.description }}">
                         Description
                     </button>
-
                 </div>
                 <div class="col">
-                    <a href="/modifier-tache/{{ tache.idTache }}">
-                        <button type="button" class="btn btn-secondary">Modifier</button>
-                    </a>
-                </div>
-                <div class="col">
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletionModal" data-id="{{ tache.idTache }}">Supprimer</button>
+                    <div class="dropdown">
+                      <button class="btn btn-secondary btn-danger dropdown-toggle" type="button" id="dropdownMenuButton-{{ tache.idTache }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        ...
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-{{ tache.idTache }}">
+                        <a class="dropdown-item" href="/modifier-tache/{{ tache.idTache }}">
+                            Modifier
+                        </a>
+                        <a class="dropdown-item" style="color: #FF0000 !important;" data-toggle="modal" data-target="#deletionModal" data-id="{{ tache.idTache }}">Supprimer</a>
+                        <a class="dropdown-item" style="color: #FF0000 !important;" href="/termine-tache/{{ tache.idTache }}">
+                            Terminer
+                        </a>
+                        <a class="dropdown-item" style="color: #FF0000 !important;" href="/archive-tache/{{ tache.idTache }}">
+                            Archiver
+                        </a>
+                      </div>
+                    </div>
                 </div>
             </div>
         </div>
