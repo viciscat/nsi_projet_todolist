@@ -7,13 +7,7 @@
     <!-- Button trigger modal -->
 
 
-    <style>
-        .myDiv {
-            border: 5px outset green;
-            background-color: #6DB270;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Base.css') }}">
 
     <script src="{{ url_for('static', filename='js/afficher.js') }}"></script>
 
@@ -22,7 +16,12 @@
     <a href="/nouvelle-tache"><button class="btn btn-primary">Créer une nouvelle tache</button></a>
     {% for tache in taches %}
         <div class="myDiv">
-            <div class="row">
+            <div class="row no-gutters">
+
+                {% if tache.idPriorite == 3 %} <div class="text-white yourDiv3" style="border-radius: 50%; width: 20px; height:20px"> {% endif %}
+                {% if tache.idPriorite == 2 %} <div class="text-white yourDiv2" style="border-radius: 50%; width: 20px; height:20px"> {% endif %}
+                {% if tache.idPriorite == 1 %} <div class="text-white yourDiv1" style="border-radius: 50%; width: 20px; height:20px"> {% endif %}
+                </div>
 
                 <div class="col-3">
                     {{ tache.nom }}
