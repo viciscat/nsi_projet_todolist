@@ -54,6 +54,18 @@ class Bdd:
     def getPriorites(self):
         return [i[0] for i in self.cursor.execute("""SELECT nom FROM Priorite""").fetchall()]
 
+    def updatePriorite(self, idCategorie, nom):
+        try:
+            self.cursor.execute("""
+            UPDATE Categorie
+            SET nom = ?
+            WHERE idCategorie = ?
+            """, (nom, idCategorie))
+
+            self.cnx.commit()
+        except sqlite3.Error as erreur:
+            print("Erreur =>", erreur)
+
     def newTache(self, nom, description, idCategorie, idEtat, idPriorite, dateLimite):
         try:
             self.cursor.execute("""

@@ -2,39 +2,64 @@
 {% extends "base.html" %}
 
 
-
-
 <!-- On ajoute notre propre contenu -->
 {% block contenu %}
-<!-- Button trigger modal -->
+    <!-- Button trigger modal -->
 
 
-<style>
-.myDiv {
-  border: 5px outset green;
-  background-color: #6DB270;
-  text-align: center;
-}
-</style>
+    <style>
+        .myDiv {
+            border: 5px outset green;
+            background-color: #6DB270;
+            text-align: center;
+        }
+    </style>
 
-<h1>Votre liste de Categories</h1>
-<p><strong>ALED</strong></p>
-{%for categorie in categories%}
-<div class="myDiv">
-  <div class="row">
-    <div class="col">
-      {{categorie.getCategorie}}
+    <script src="{{ url_for('static', filename='js/modif_categorie.js') }}"></script>
+
+    <h1>Votre liste de Categories</h1>
+    <p><strong>ALED</strong></p>
+    {% for categorie in categories %}
+        <div class="myDiv">
+            <div class="row">
+                <div class="col">
+                    {{ categorie }}
+                </div>
+                <div class="col">
+                    <button type="button" data-toggle="modal" data-target="#editCategorieModal">Modifier</button>
+                </div>
+                <div class="col">
+                    <button type="button">Supprimer</button>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+
+    <div class="modal fade" id="editCategorieModal" tabindex="-1" role="dialog"
+         aria-labelledby="editCategorieModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Editer la catégorie</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/modifier-categorie/-1" id="change-categorie-form" method="post">
+                   <div class="form-group">
+                       <label for="recipient-name" class="col-form-label">Nom de la tache</label>
+                       <input name="nom" type="text" class="form-control" id="recipient-name">
+                   </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" form="change-categorie-form" value="Ok" />
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col">
-        <a href="/modifier-tache">
-      <button type="button">Modifier</button>
-        </a>
-    </div>
-    <div class="col">
-      <button type="button">Supprimer</button>
-    </div>
-  </div>
-</div>
-{%endfor%}
 
 {% endblock %}

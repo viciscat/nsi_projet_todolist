@@ -32,12 +32,7 @@
     </script>
 </head>
 <body>
-<style>
-    body {
-        background-color: powderblue;
-        overflow:scroll;
-    }
-</style>
+
 <!-- Barre de navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/">{ ToDoList }</a>
@@ -70,9 +65,9 @@
     </div>
 </nav>
 
-<div aria-live="polite" aria-atomic="true" style="position: absolute; min-height: 200px; z-index: 2; width: 100%; pointer-events: none">
+<div class="notif_div" aria-live="polite" aria-atomic="true">
     <!-- Position it -->
-    <div style="position: absolute; top: 0; right: 0;">
+    <div class="notifs" style="position: absolute; top: 0; right: 0;">
         <!-- Message(s) de notification -->
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -106,7 +101,7 @@
 </div>
 
 <!-- Zone centrale de la page -->
-<div class="container" style="padding-top: 100px; padding-bottom: 100px">
+<div class="container">
 
     {% block contenu %}
     {% endblock %}

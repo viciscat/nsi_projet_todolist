@@ -77,6 +77,14 @@ def affichage_categories():
     return render_template('categories.html', categories=database.getCategories())
 
 
+@app.route("/modifier-categorie/<idCategorie>", methods=["POST"])
+def modifier_categorie(idCategorie):
+    rep = request.form
+    database.updatePriorite(int(idCategorie), rep["nom"])
+    flash("Nom de la categorie changer avec succès !")
+    return redirect("/categories")
+
+
 @app.route("/etats")
 def affichage_etats():
     return render_template('etats.html', etats=database.getEtats())
@@ -88,17 +96,20 @@ def supprimer(idTache):
     flash("La tache a été supprimer avec succès !")
     return redirect("/afficher")
 
+
 @app.route('/termine-tache/<idTache>')
 def termineTache(idTache):
     database.modifyTacheStatus(int(idTache), 1)
     flash("La tache a été terminé avec succès !")
     return redirect("/afficher")
 
+
 @app.route('/archive-tache/<idTache>')
 def archiveTache(idTache):
     database.modifyTacheStatus(int(idTache), 2)
     flash("La tache a été archivé avec succès !")
     return redirect("/afficher")
+
 
 # TODO : ajoutez de nouvelles routes associées à des fonctions "contrôleur" Python
 
