@@ -34,7 +34,6 @@ class Bdd:
         SELECT *
         FROM Taches
         """).fetchall())
-        [print(*i) for i in data]
         return [Tache.Tache(*i, database=self) for i in data]
 
     def getTache(self, id):
@@ -54,7 +53,7 @@ class Bdd:
     def getPriorites(self):
         return [i[0] for i in self.cursor.execute("""SELECT nom FROM Priorite""").fetchall()]
 
-    def updatePriorite(self, idCategorie, nom):
+    def updateCategorie(self, idCategorie, nom):
         try:
             self.cursor.execute("""
             UPDATE Categorie
@@ -66,6 +65,38 @@ class Bdd:
         except sqlite3.Error as erreur:
             print("Erreur =>", erreur)
 
+    def getNombreTacheCategorie(self, idCategorie):
+        try:
+            return self.cursor.execute("""
+            SELECT COUNT(idTache)
+            FROM Taches
+            WHERE idCategorie = ?
+            """, (idCategorie,)).fetchall()[0][0]
+        except sqlite3.Error as erreur:
+            return erreur
+
+    def deleteCategorie(self, idCategorie):
+        try:
+            self.cursor.execute("""
+            DELETE FROM Categorie
+            WHERE idCategorie = ?
+            """, (idCategorie,))
+
+            self.cnx.commit()
+        except sqlite3.Error as erreur:
+            return erreur
+
+    def newCategorie(self, nom):
+        try:
+            self.cursor.execute("""
+            INSERT INTO Categorie (nom)
+            VALUES (?)
+            """, (nom,))
+            self.cnx.commit()
+        except sqlite3.Error as erreur:
+            return erreur
+
+
     def newTache(self, nom, description, idCategorie, idEtat, idPriorite, dateLimite):
         try:
             self.cursor.execute("""
@@ -75,7 +106,7 @@ class Bdd:
             self.cnx.commit()
 
         except sqlite3.Error as erreur:
-            print("Erreur =>", erreur)
+            return erreur
 
     def updateTache(self, idTache, data: dict):
         """
@@ -92,7 +123,7 @@ class Bdd:
             self.cnx.commit()
 
         except sqlite3.Error as erreur:
-            print("Erreur =>", erreur)
+            return erreur
 
     def deleteTache(self, idTache):
         try:
@@ -102,15 +133,15 @@ class Bdd:
             """, (idTache,))
             self.cnx.commit()
         except sqlite3.Error as erreur:
-            print("Erreur =>", erreur)
+            return erreur
 
     def modifyTacheStatus(self, idTache, status):
         try:
             self.cnx.execute("""
             UPDATE Taches
-            SET status = ?
+            SET idEtat = ?
             WHERE idTache = ?
-            """, (status,idTache,))
+            """, (status, idTache,))
             self.cnx.commit()
         except sqlite3.Error as erreur:
             print("Erreur =>", erreur)
@@ -122,5 +153,6 @@ if __name__ == "__main__":
     test = Bdd()
     print(test.getTaches())
     print(test.getTaches(filtre=False))
+    print(test.getNombreTacheCategorie("hre"))
     # test.newTache("suuuus", "bruh", 2, 1, 1, "2500/10/20")
     # test.updateTache(3, {"dateLimite": "2050/09/15"})

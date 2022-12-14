@@ -20,8 +20,6 @@ taches = database.getTaches()
 # Les routes associées aux fonctions
 @app.route("/")
 def accueillir():
-    flash("Bienvenue sur L'application ToDoList")
-    flash("wowi")
     """Gère l'accueil des utilisateurs"""
     print(taches)
     for i in taches:
@@ -45,9 +43,12 @@ def new_task_page():
 @app.route('/nouvelle-tache-req', methods=["POST"])
 def new_task():
     rep = request.form
-    database.newTache(rep["nom"], rep["description"], int(rep["categorie"]),
+    ret = database.newTache(rep["nom"], rep["description"], int(rep["categorie"]),
                       1, int(rep["priorite"]), rep["dateLimite"])
-    flash("La tache a été créer avec succès !")
+    if ret is None:
+        flash("La tache a été créer avec succès !")
+    else:
+        flash("Uh Oh! Une erreur s'est produite lors de la création de la tache!")
     return redirect("/afficher")
 
 
@@ -63,8 +64,13 @@ def modifier_tache_page(idTache):
 def modifier_tache(idTache):
     rep = request.form.to_dict()
     rep["description"] = rep["description"].replace("\r\n", "\\r\\n")
-    database.updateTache(int(idTache), rep)
-    return redirect('/afficher')
+    ret = database.updateTache(int(idTache), rep)
+    if ret is None:
+        flash("Tache modifiée avec succès !")
+        return redirect('/afficher')
+    else:
+        flash("Uh Oh ! Une erreur s'est produite dans la modification de la tache !")
+        return redirect(url_for('modifier_tache'))
 
 
 @app.route("/priorites")
@@ -74,15 +80,30 @@ def affichage_priorites():
 
 @app.route("/categories")
 def affichage_categories():
-    return render_template('categories.html', categories=database.getCategories())
+    categories = database.getCategories()
+    return render_template('categories.html', categories=categories,
+                           nbtaches=[database.getNombreTacheCategorie(i+1) for i in range(len(categories))])
 
 
 @app.route("/modifier-categorie/<idCategorie>", methods=["POST"])
 def modifier_categorie(idCategorie):
     rep = request.form
-    database.updatePriorite(int(idCategorie), rep["nom"])
+    print(rep)
+    database.updateCategorie(int(idCategorie), rep["nom"])
     flash("Nom de la categorie changer avec succès !")
     return redirect("/categories")
+
+
+@app.route("/nouvelle-categorie", methods=["POST"])
+def nouvelle_categorie():
+    rep = request.form
+    ret = database.newCategorie(rep["nom"])
+    if ret is None:
+        flash("Catégorie ajoutée avec succès !")
+        return redirect(url_for('affichage_categories'))
+    else:
+        flash("Uh Oh ! Une erreur s'est produite lors de la création de la catégorie")
+        return redirect(url_for('affichage_categories'))
 
 
 @app.route("/etats")
@@ -97,16 +118,27 @@ def supprimer(idTache):
     return redirect("/afficher")
 
 
+@app.route('/supprimer-categorie/<idCategorie>')
+def supprimerCategorie(idCategorie):
+    ret = database.deleteCategorie(int(idCategorie))
+    if ret is None:
+        flash("Catégorie supprimée avec succès !")
+        return redirect(url_for('affichage_categories'))
+    else:
+        flash("Uh Oh ! Une erreur s'est produite lors de la suppression de la catégorie")
+        return redirect(url_for('affichage_categories'))
+
+
 @app.route('/termine-tache/<idTache>')
 def termineTache(idTache):
-    database.modifyTacheStatus(int(idTache), 1)
+    database.modifyTacheStatus(int(idTache), 2)
     flash("La tache a été terminé avec succès !")
     return redirect("/afficher")
 
 
 @app.route('/archive-tache/<idTache>')
 def archiveTache(idTache):
-    database.modifyTacheStatus(int(idTache), 2)
+    database.modifyTacheStatus(int(idTache), 3)
     flash("La tache a été archivé avec succès !")
     return redirect("/afficher")
 

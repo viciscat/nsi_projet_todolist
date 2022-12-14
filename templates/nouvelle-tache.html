@@ -13,15 +13,14 @@
     </style>
 
 
-    <form action="/nouvelle-tache-req" method="post" class="bg-light"
-          style="padding: 10px; border-radius: 10px; box-shadow: inset -3px -3px 0 0 darkgray">
+    <form action="/nouvelle-tache-req" method="post" class="bg-light">
         <div class="form-group">
             <h1 style="text-align: center">Ajouter une nouvelle tache</h1>
 
             <!-- Nom -->
             <label for="nom-tache" class="label-input">Nom</label>
             <input name="nom" type="text" class="form-control" id="nom-tache" aria-describedby="emailHelp"
-                   placeholder="Entrez le nom de votre tache" required>
+                   placeholder="Entrez le nom de votre tache" maxlength="30" required>
             <small id="nomHelp" class="form-text text-muted">Nom de la tache (requis)</small>
 
             <!-- Description -->
@@ -41,7 +40,7 @@
                 peuvent etre changer dans l'onglet Catégories</small>
 
             <!-- Priorité -->
-            <label for="priorite" class="label-input">Description</label>
+            <label for="priorite" class="label-input">Priorité</label>
             <select name="priorite" class="form-control" id="priorite" required>
                 {% for i in range(priorites|length) %}
                     <option value="{{ i + 1 }}">{{ priorites[i] }}</option>

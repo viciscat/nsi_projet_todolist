@@ -1,6 +1,6 @@
 // C'est quand meme pratique la docu Bootstrap
 
-$(document).on('show.bs.modal','#editCategorieModal', function (event) {
+$(document).on('show.bs.modal','#descriptionModal', function (event) {
   const button = $(event.relatedTarget) // Button that triggered the modal
   const description = String(button.data('description')) // Extract info from data-* attributes
   console.log(typeof description)

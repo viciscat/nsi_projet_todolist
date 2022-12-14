@@ -13,14 +13,13 @@
     </style>
 
 
-    <form action="/modifier-tache-req/{{ tache.idTache }}" method="post" class="bg-light"
-          style="padding: 10px; border-radius: 10px; box-shadow: inset -3px -3px 0 0 darkgray">
+    <form action="/modifier-tache-req/{{ tache.idTache }}" method="post" class="bg-light">
         <div class="form-group">
             <h1 style="text-align: center">Modifier la tache</h1>
 
             <label for="nom-tache" class="label-input">Nom</label>
             <input name="nom" type="text" class="form-control" id="nom-tache" aria-describedby="emailHelp"
-                   placeholder="Entrez le nom de votre tache" value="{{ tache.nom }}" required>
+                   placeholder="Entrez le nom de votre tache" value="{{ tache.nom }}" maxlength="30" required>
             <small id="nomHelp" class="form-text text-muted">Nom de la tache (requis)</small>
 
             <label for="description" class="label-input">Description</label>
@@ -37,7 +36,7 @@
             <small id="categorieHelp" class="form-text text-muted">Categorie de la tache (requis). Les catégories
                 peuvent etre changer dans l'onglet Catégories</small>
 
-            <label for="priorite" class="label-input">Description</label>
+            <label for="priorite" class="label-input">Priorité</label>
             <select name="idPriorite" class="form-control" id="priorite" required>
                 {% for i in range(priorites|length) %}
                     <option value="{{ i + 1 }}" {% if tache.idPriorite|int == i + 1 %} selected="selected" {% endif %} >{{ priorites[i] }}</option>
