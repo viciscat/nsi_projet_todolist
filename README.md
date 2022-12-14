@@ -1,7 +1,7 @@
 # nsi_projet_todolist
 | ID    | Description                                                                                                                                                                             | Priorité | Personne | Fini ? |
 | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | -------- |--------|
-| FS1   | Afficher la liste des tâches par date d’échéance<br>croissante avec pour chaque tâche: titre, catégorie, date<br>échéance). Seules les tâches “Encours”et“Terminée”<br>seront affichées | Haute    |          |        |
+| FS1   | Afficher la liste des tâches par date d’échéance<br>croissante avec pour chaque tâche: titre, catégorie, date<br>échéance). Seules les tâches “Encours”et“Terminée”<br>seront affichées | Haute    |          |     oui   |
 | FS2   | Ajouter une nouvelle tâche via un bouton dédié                                                                                                                                          | Haute    |Victor| ui     |
 | FS3   | Supprimer une tâche via un bouton dédié                                                                                                                                                 | Haute    |Victor| ui     |
 | FS4   | Modifier une tâche via un bouton dédié                                                                                                                                                  | Haute    |Victor| ui     |
@@ -9,7 +9,7 @@
 | FS6   | Héberger l’application en ligne                                                                                                                                                         | Basse    |          |        |
 | FS7   | Proposerdesstatistiquessurlestâches(tâchesencours<br>VSterminée,parcatégorie,%terminéesavantéchéance                                                                                    | Basse    |          | ui     |
 | FS2.1 | Proposeruncalendrierpoursaisirladated’échéancede<br>latâche                                                                                                                             | Basse    |          | ui     |
-| FS1.1 | Adapter la couleur à la priorité de la tâche(rouge=haute,<br>jaune=moyenne,vert=basse)                                                                                                  | Basse    |          |        |
+| FS1.1 | Adapter la couleur à la priorité de la tâche(rouge=haute,<br>jaune=moyenne,vert=basse)                                                                                                  | Basse    |          |   oui   |
 | FS1.2 | Rayer le titre d’une tâche si celle-ci est dans l’état<br>“Terminée”                                                                                                                    | Basse    |          |        |
 | FS1.3 | Préciser le temps restant avant la date d’échéance de la<br>tâche dont un signalement si la tâche est en retard                                                                         | Basse    |          |        |
 | FS1.4 | Filtrer l’affichage des tâches par catégorie : un bouton =<br>une catégorie. Un bouton “Toutes” affichera toute les<br>tâches de toutes les catégories                                  | Basse    |          |        |
