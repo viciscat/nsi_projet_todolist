@@ -16,68 +16,89 @@
     <a href="/nouvelle-tache">
         <button class="btn btn-primary">Créer une nouvelle tache</button>
     </a>
-    {% for tache in taches %}
-        <div class="myDiv">
-            <div class="row no-gutters">
+    <br>
 
-                {% if tache.idPriorite == 3 %}
-                    <div class="text-white status-circle yourDiv3"></div> {% endif %}
-                {% if tache.idPriorite == 2 %}
-                    <div class="text-white status-circle yourDiv2"></div> {% endif %}
-                {% if tache.idPriorite == 1 %}
-                    <div class="text-white status-circle yourDiv1"></div> {% endif %}
+    <div style="text-align: right">
+        <strong>Filtre : </strong>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-secondary active filtreOption" onclick="change_filtre(event);">
+                <input class="option" type="radio" name="options" id="option0" value="0" checked> Tous
+            </label>
 
-                <div class="col-3 {% if tache.idEtat == 2 %} finished {% endif %} ">
-                    {{ tache.nom }}
-                </div>
-                <div class="col">
-                    {{ tache.getCategorie() }}
-                </div>
-                <div class="col">
-                    {{ tache.getEtat() }}
-                </div>
-                <div class="col">
-                    {{ tache.getPriorite() }}
-                </div>
-                <div class="col">
-                    {{ tache.dateLimite }}
-                </div>
-                <div class="col">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#descriptionModal"
-                            data-description="{{ tache.description }}">
-                        Description
-                    </button>
-                </div>
-                <div class="col">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary btn-danger dropdown-toggle" type="button"
-                                id="dropdownMenuButton-{{ tache.idTache }}" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                            ...
+            {% for i in range(categories|length) %}
+                <label class="btn btn-secondary filtreOption" onclick="change_filtre(event);">
+                    <input class="option" type="radio" name="options" id="option{{ i + 1 }}" value="{{ i + 1 }}">
+                    {{ categories[i] }}
+                </label>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="taskList">
+        {% for tache in taches %}
+
+            <div class="myDiv {{ tache.idCategorie }}">
+                <div class="row no-gutters taskRow">
+
+                    {% if tache.idPriorite == 3 %}
+                        <div class="text-white status-circle yourDiv3"></div> {% endif %}
+                    {% if tache.idPriorite == 2 %}
+                        <div class="text-white status-circle yourDiv2"></div> {% endif %}
+                    {% if tache.idPriorite == 1 %}
+                        <div class="text-white status-circle yourDiv1"></div> {% endif %}
+
+                    <div class="col-3 {% if tache.idEtat == 2 %} finished {% endif %} ">
+                        <strong>{{ tache.nom }}</strong>
+                    </div>
+                    <div class="col">
+                        {{ tache.getCategorie() }}
+                    </div>
+                    <div class="col">
+                        {{ tache.getEtat() }}
+                    </div>
+                    <div class="col">
+                        {{ tache.getPriorite() }}
+                    </div>
+                    <div class="col">
+                        {{ tache.dateLimite }}
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#descriptionModal"
+                                data-description="{{ tache.description }}">
+                            Description
                         </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-{{ tache.idTache }}">
-                            <a class="dropdown-item" href="/modifier-tache/{{ tache.idTache }}">
-                                <i class="bi bi-pencil-square"></i> Modifier
-                            </a>
-                            <button class="dropdown-item" style="color: #FF0000 !important;" data-toggle="modal"
-                                    data-target="#deletionModal" data-id="{{ tache.idTache }}">
-                                <i class="bi bi-trash3"></i> Supprimer
+                    </div>
+                    <div class="col">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary btn-danger dropdown-toggle" type="button"
+                                    id="dropdownMenuButton-{{ tache.idTache }}" data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                ...
                             </button>
-                            <a class="dropdown-item" style="color: #FF0000 !important;"
-                               href="/termine-tache/{{ tache.idTache }}">
-                                <i class="bi bi-check-lg"></i> Terminer
-                            </a>
-                            <a class="dropdown-item" style="color: #FF0000 !important;"
-                               href="/archive-tache/{{ tache.idTache }}">
-                                <i class="bi bi-archive"></i> Archiver
-                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton-{{ tache.idTache }}">
+                                <a class="dropdown-item" href="/modifier-tache/{{ tache.idTache }}">
+                                    <i class="bi bi-pencil-square"></i> Modifier
+                                </a>
+                                <button class="dropdown-item" style="color: #FF0000 !important;" data-toggle="modal"
+                                        data-target="#deletionModal" data-id="{{ tache.idTache }}">
+                                    <i class="bi bi-trash3"></i> Supprimer
+                                </button>
+                                <a class="dropdown-item" style="color: #FF0000 !important;"
+                                   href="/termine-tache/{{ tache.idTache }}">
+                                    <i class="bi bi-check-lg"></i> Terminer
+                                </a>
+                                <a class="dropdown-item" style="color: #FF0000 !important;"
+                                   href="/archive-tache/{{ tache.idTache }}">
+                                    <i class="bi bi-archive"></i> Archiver
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    {% endfor %}
-
+        {% endfor %}
+    </div>
     <!-- Modal de description -->
     <div class="modal fade" id="descriptionModal" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -99,7 +120,7 @@
     </div>
 
     <!-- Modal de suppresion -->
-    <div class="modal" id="deletionModal" tabindex="-1" role="dialog">
+    <div class="modal fade" id="deletionModal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

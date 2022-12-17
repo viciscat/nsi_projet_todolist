@@ -85,6 +85,9 @@ body {
     border: 5px outset #028DFA;
     background-color: #8AF0D9;
     text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 5px;
 }
 
 .status-circle {
@@ -97,16 +100,24 @@ body {
     background-color: #FA2200;
     text-align: center;
     margin: auto;
+    box-shadow: 2px 2px 0 0 #c81900;
 }
 
 .yourDiv2 {
     background-color: #F0CF46;
     text-align: center;
     margin: auto;
+    box-shadow: 2px 2px 0 0 #c8a032;
 }
 
 .yourDiv1 {
     background-color: #1BFA77;
     text-align: center;
     margin: auto;
+    box-shadow: 2px 2px 0 0 #0ac850
+}
+
+.taskRow {
+    display: flex;
+    align-items: center;
 }

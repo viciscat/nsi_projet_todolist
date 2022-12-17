@@ -50,6 +50,16 @@ class Bdd:
     def getEtats(self):
         return [i[0] for i in self.cursor.execute("""SELECT nom FROM Etat""").fetchall()]
 
+    def getNombreTacheEtat(self, idEtat):
+        try:
+            return self.cursor.execute("""
+            SELECT COUNT(idTache)
+            FROM Taches
+            WHERE idEtat = ?
+            """, (idEtat,)).fetchall()[0][0]
+        except sqlite3.Error as erreur:
+            return erreur
+
     def getPriorites(self):
         return [i[0] for i in self.cursor.execute("""SELECT nom FROM Priorite""").fetchall()]
 

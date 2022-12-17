@@ -31,7 +31,7 @@ def accueillir():
 
 @app.route("/afficher")
 def afficher():
-    return render_template('afficher.html', taches=database.getTaches())
+    return render_template('afficher.html', taches=database.getTaches(), categories=database.getCategories())
 
 
 @app.route('/nouvelle-tache')
@@ -44,7 +44,7 @@ def new_task_page():
 def new_task():
     rep = request.form
     ret = database.newTache(rep["nom"], rep["description"], int(rep["categorie"]),
-                      1, int(rep["priorite"]), rep["dateLimite"])
+                            1, int(rep["priorite"]), rep["dateLimite"])
     if ret is None:
         flash("La tache a été créer avec succès !")
     else:
@@ -82,7 +82,7 @@ def affichage_priorites():
 def affichage_categories():
     categories = database.getCategories()
     return render_template('categories.html', categories=categories,
-                           nbtaches=[database.getNombreTacheCategorie(i+1) for i in range(len(categories))])
+                           nbtaches=[database.getNombreTacheCategorie(i + 1) for i in range(len(categories))])
 
 
 @app.route("/modifier-categorie/<idCategorie>", methods=["POST"])
@@ -141,6 +141,21 @@ def archiveTache(idTache):
     database.modifyTacheStatus(int(idTache), 3)
     flash("La tache a été archivé avec succès !")
     return redirect("/afficher")
+
+
+@app.route('/statistiques')
+def stats():
+    return render_template('statistiques.html')
+
+
+@app.route('/get-stats', methods=['GET'])
+def get_statistiques():
+    etats = database.getEtats()
+    categories = database.getCategories()
+    message = {"categories": categories, "nbCategorie": [database.getNombreTacheCategorie(i + 1) for i in range(len(
+        categories))], "etats": etats, "nbEtat": [database.getNombreTacheEtat(i + 1) for i in range(len(
+        etats))]}
+    return jsonify(message)
 
 
 # TODO : ajoutez de nouvelles routes associées à des fonctions "contrôleur" Python

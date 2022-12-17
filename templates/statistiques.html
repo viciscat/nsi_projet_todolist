@@ -1,0 +1,25 @@
+<!-- On hÃ©rite du template de base -->
+{% extends "base.html" %}
+
+
+<!-- On ajoute notre propre contenu -->
+{% block contenu %}
+
+    <h1>STATISTIQUES</h1>
+    <div style="display: flex">
+        <div style="width: 50%; flex: 1">
+            <canvas id="categorieChart"></canvas>
+        </div>
+        <div style="width: 50%; flex: 1">
+            <canvas id="finiChart"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="{{ url_for('static', filename='js/statistiques.js') }}"></script>
+
+
+
+
+{% endblock %}
