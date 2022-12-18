@@ -29,9 +29,9 @@ CREATE TABLE IF NOT EXISTS Etat (
 	idEtat	INTEGER PRIMARY KEY ,
 	nom	TEXT NOT NULL
 );
-INSERT INTO Priorite VALUES (1,'basse');
-INSERT INTO Priorite VALUES (2,'moyenne');
-INSERT INTO Priorite VALUES (3,'haute');
+INSERT INTO Priorite VALUES (1,'Basse');
+INSERT INTO Priorite VALUES (2,'Moyenne');
+INSERT INTO Priorite VALUES (3,'Haute');
 INSERT INTO Categorie VALUES (1,'Travail');
 INSERT INTO Categorie VALUES (2,'Maison');
 INSERT INTO Etat VALUES (1,'En cours');

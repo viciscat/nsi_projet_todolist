@@ -14,12 +14,14 @@
 
     <h1>Votre liste de Taches</h1>
     <a href="/nouvelle-tache">
-        <button class="btn btn-primary">Créer une nouvelle tache</button>
+        <button class="btn btn-primary"><i class="bi bi-plus-square"></i> Créer une nouvelle tache</button>
     </a>
     <br>
 
-    <div style="text-align: right">
+    <div class="filtreDiv">
+
         <strong>Filtre : </strong>
+
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
             <label class="btn btn-secondary active filtreOption" onclick="change_filtre(event);">
                 <input class="option" type="radio" name="options" id="option0" value="0" checked> Tous
@@ -32,19 +34,44 @@
                 </label>
             {% endfor %}
         </div>
+        <br>
+        <a href="/afficher-archive">Afficher les taches archivées</a>
     </div>
     <div id="taskList">
-        {% for tache in taches %}
 
-            <div class="myDiv {{ tache.idCategorie }}">
+        <div class="row no-gutters taskList-label">
+            <div class="col-3">
+                <strong>Nom</strong>
+            </div>
+            <div class="col">
+                <strong>Categorie</strong>
+            </div>
+            <div class="col">
+                <strong>Etat</strong>
+            </div>
+            <div class="col">
+                <strong>Priorité</strong>
+            </div>
+            <div class="col">
+                <strong>Date de Fin</strong>
+            </div>
+            <div class="col"></div>
+            <div class="col"></div>
+        </div>
+
+        {% for tache in taches %}
+            {% set jours = (dt.strptime(tache.dateLimite, "%Y-%m-%d")-dt.now()).days %}
+
+
+            <div class="taskRowContainer {{ tache.idCategorie }} {% if jours < 0 and tache.idEtat == 1 %}late-task{% elif tache.idEtat == 3 %}archived-task{% endif %} ">
                 <div class="row no-gutters taskRow">
 
                     {% if tache.idPriorite == 3 %}
-                        <div class="text-white status-circle yourDiv3"></div> {% endif %}
+                        <div class="text-white status-circle red-circle"></div> {% endif %}
                     {% if tache.idPriorite == 2 %}
-                        <div class="text-white status-circle yourDiv2"></div> {% endif %}
+                        <div class="text-white status-circle yellow-circle"></div> {% endif %}
                     {% if tache.idPriorite == 1 %}
-                        <div class="text-white status-circle yourDiv1"></div> {% endif %}
+                        <div class="text-white status-circle green-circle"></div> {% endif %}
 
                     <div class="col-3 {% if tache.idEtat == 2 %} finished {% endif %} ">
                         <strong>{{ tache.nom }}</strong>
@@ -59,7 +86,18 @@
                         {{ tache.getPriorite() }}
                     </div>
                     <div class="col">
-                        {{ tache.dateLimite }}
+                        {{ tache.dateLimite }}<br>
+                        {% if tache.idEtat != 3 %}
+                            <p style="font-size: 12px">
+                                {% if tache.idEtat == 2 %}
+                                    Fini le {{ tache.dateFin }}
+                                {% elif jours < 0 %}
+                                    <mark>{{ jours|abs }} jrs en retard !</mark>
+                                {% else %}
+                                    {{ jours }} jrs restant(s)
+                                {% endif %}
+                            </p>
+                        {% endif %}
                     </div>
                     <div class="col">
                         <button type="button" class="btn btn-primary" data-toggle="modal"

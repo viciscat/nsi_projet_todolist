@@ -16,13 +16,16 @@ class Bdd:
     # TODO : ajoutez le code nécessaire à la classe Bdd
     def __init__(self):
         """
-        Base de donnée vla gaming pour le projet todolist
+        Base de donnée pour le projet todolist
         """
         self.cnx = sqlite3.connect("bdd/todo.sqlite", check_same_thread=False)
         self.cnx.row_factory = sqlite3.Row
         self.cursor = self.cnx.cursor()
 
     def getTaches(self, filtre=True):
+        """
+        Récuperer toutes les taches, si filtre est True, n'inclut pas les taches archivées.
+        """
         data = (self.cursor.execute("""
         SELECT *
         FROM Taches
@@ -37,20 +40,32 @@ class Bdd:
         return [Tache.Tache(*i, database=self) for i in data]
 
     def getTache(self, id):
+        """
+        Récupère une tache spécifique avec son ID
+        """
         return self.cursor.execute("""
                 SELECT *
                 FROM Taches
                 WHERE idTache = ?
                 """, (id,)).fetchall()
 
-    # Ca donne une liste de tuple avec un élément (("truc",), ("machin",), ...) donc on doit faire une petite manip
+    # Ça donne une liste de tuple avec un élément (("truc",), ("machin",), ...) donc on doit faire une petite manip
     def getCategories(self):
+        """
+        Récupère toutes les catégories
+        """
         return [i[0] for i in self.cursor.execute("""SELECT nom FROM Categorie""").fetchall()]
 
     def getEtats(self):
+        """
+        Récupère tous les états
+        """
         return [i[0] for i in self.cursor.execute("""SELECT nom FROM Etat""").fetchall()]
 
     def getNombreTacheEtat(self, idEtat):
+        """
+        Renvoie le nombre de taches qui ont cet état
+        """
         try:
             return self.cursor.execute("""
             SELECT COUNT(idTache)
@@ -61,9 +76,15 @@ class Bdd:
             return erreur
 
     def getPriorites(self):
+        """
+        Renvoie toutes les priorités
+        """
         return [i[0] for i in self.cursor.execute("""SELECT nom FROM Priorite""").fetchall()]
 
     def updateCategorie(self, idCategorie, nom):
+        """
+        Permet de changer le nom de la catégorie d'id idCategorie
+        """
         try:
             self.cursor.execute("""
             UPDATE Categorie
@@ -76,6 +97,9 @@ class Bdd:
             print("Erreur =>", erreur)
 
     def getNombreTacheCategorie(self, idCategorie):
+        """
+        Renvoie le nombre de taches qui ont cette catégorie
+        """
         try:
             return self.cursor.execute("""
             SELECT COUNT(idTache)
@@ -86,6 +110,9 @@ class Bdd:
             return erreur
 
     def deleteCategorie(self, idCategorie):
+        """
+        Supprime la catégorie d'ID idCategorie
+        """
         try:
             self.cursor.execute("""
             DELETE FROM Categorie
@@ -97,6 +124,9 @@ class Bdd:
             return erreur
 
     def newCategorie(self, nom):
+        """
+        Crée une nouvelle catégorie avec un nom
+        """
         try:
             self.cursor.execute("""
             INSERT INTO Categorie (nom)
@@ -106,8 +136,10 @@ class Bdd:
         except sqlite3.Error as erreur:
             return erreur
 
-
     def newTache(self, nom, description, idCategorie, idEtat, idPriorite, dateLimite):
+        """
+        Crée une nouvelle tache avec ces paramètres
+        """
         try:
             self.cursor.execute("""
             INSERT INTO Taches (nom, description, idCategorie, idEtat, idPriorite, dateLimite)
@@ -120,9 +152,9 @@ class Bdd:
 
     def updateTache(self, idTache, data: dict):
         """
-        Met a jour la tache avec l'id idTache, avec les données data.
+        Met à jour la tache avec l'id idTache, avec les données data.
 
-        data est un dictionnaire avec la clé représantant le nom de l'attribut et la valeur,
+        Data est un dictionnaire avec la clé représantant le nom de l'attribut et la valeur,
         la valeur de l'attribut
         """
         try:
@@ -136,6 +168,9 @@ class Bdd:
             return erreur
 
     def deleteTache(self, idTache):
+        """
+        Suprrime la tache d'ID idTache
+        """
         try:
             self.cnx.execute("""
             DELETE FROM Taches
@@ -146,6 +181,9 @@ class Bdd:
             return erreur
 
     def modifyTacheStatus(self, idTache, status):
+        """
+        Modifie l'état de la tache d'ID idTache par l'état status
+        """
         try:
             self.cnx.execute("""
             UPDATE Taches

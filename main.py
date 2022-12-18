@@ -8,6 +8,8 @@ gérant une liste de tâches à faire
 
 from flask import *
 import bdd
+from datetime import datetime as dt
+from datetime import timedelta
 
 # Création des objets Flask et Bdd
 app = Flask(__name__)
@@ -15,6 +17,7 @@ app.secret_key = b"1r9)G^A3vTfX4qtwsV#M+Rjjd@JR$+Wa.nt8dz.jhZ_j3M8-(zzkkL^Z5Y3cm
 database = bdd.Bdd()
 
 taches = database.getTaches()
+MAX_DATE = timedelta(365 * 10)
 
 
 # Les routes associées aux fonctions
@@ -29,15 +32,25 @@ def accueillir():
     return render_template("accueil.html")
 
 
+##################################
+# ------------------------------ #
+#             Taches             #
+# ------------------------------ #
+##################################
 @app.route("/afficher")
 def afficher():
-    return render_template('afficher.html', taches=database.getTaches(), categories=database.getCategories())
+    return render_template('afficher.html', taches=database.getTaches(), categories=database.getCategories(), dt=dt)
+
+
+@app.route("/afficher-archive")
+def afficher_archive():
+    return render_template('afficher.html', taches=database.getTaches(False), categories=database.getCategories(), dt=dt)
 
 
 @app.route('/nouvelle-tache')
 def new_task_page():
     return render_template('nouvelle-tache.html', categories=database.getCategories(),
-                           priorites=database.getPriorites())
+                           priorites=database.getPriorites(), today=dt.now(), max_day=MAX_DATE)
 
 
 @app.route('/nouvelle-tache-req', methods=["POST"])
@@ -73,10 +86,33 @@ def modifier_tache(idTache):
         return redirect(url_for('modifier_tache'))
 
 
-@app.route("/priorites")
-def affichage_priorites():
-    return render_template('priorites.html', priorites=database.getEtats())
+@app.route('/supprimer/<idTache>')
+def supprimer(idTache):
+    database.deleteTache(int(idTache))
+    flash("La tache a été supprimer avec succès !")
+    return redirect("/afficher")
 
+
+@app.route('/termine-tache/<idTache>')
+def termineTache(idTache):
+    database.modifyTacheStatus(int(idTache), 2)
+    database.updateTache(int(idTache), {"dateFin": dt.now().strftime("%Y-%m-%d")})
+    flash("La tache a été terminé avec succès !")
+    return redirect("/afficher")
+
+
+@app.route('/archive-tache/<idTache>')
+def archiveTache(idTache):
+    database.modifyTacheStatus(int(idTache), 3)
+    flash("La tache a été archivé avec succès !")
+    return redirect("/afficher")
+
+
+##################################
+# ------------------------------ #
+#           Categories           #
+# ------------------------------ #
+##################################
 
 @app.route("/categories")
 def affichage_categories():
@@ -106,18 +142,6 @@ def nouvelle_categorie():
         return redirect(url_for('affichage_categories'))
 
 
-@app.route("/etats")
-def affichage_etats():
-    return render_template('etats.html', etats=database.getEtats())
-
-
-@app.route('/supprimer/<idTache>')
-def supprimer(idTache):
-    database.deleteTache(int(idTache))
-    flash("La tache a été supprimer avec succès !")
-    return redirect("/afficher")
-
-
 @app.route('/supprimer-categorie/<idCategorie>')
 def supprimerCategorie(idCategorie):
     ret = database.deleteCategorie(int(idCategorie))
@@ -129,18 +153,11 @@ def supprimerCategorie(idCategorie):
         return redirect(url_for('affichage_categories'))
 
 
-@app.route('/termine-tache/<idTache>')
-def termineTache(idTache):
-    database.modifyTacheStatus(int(idTache), 2)
-    flash("La tache a été terminé avec succès !")
-    return redirect("/afficher")
-
-
-@app.route('/archive-tache/<idTache>')
-def archiveTache(idTache):
-    database.modifyTacheStatus(int(idTache), 3)
-    flash("La tache a été archivé avec succès !")
-    return redirect("/afficher")
+##################################
+# ------------------------------ #
+#          Statistiques          #
+# ------------------------------ #
+##################################
 
 
 @app.route('/statistiques')
@@ -156,6 +173,11 @@ def get_statistiques():
         categories))], "etats": etats, "nbEtat": [database.getNombreTacheEtat(i + 1) for i in range(len(
         etats))]}
     return jsonify(message)
+
+
+@app.route('/a-propos')
+def a_propos():
+    return render_template("a-propos.html")
 
 
 # TODO : ajoutez de nouvelles routes associées à des fonctions "contrôleur" Python

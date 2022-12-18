@@ -15,12 +15,12 @@
 
     <form action="/nouvelle-tache-req" method="post" class="bg-light">
         <div class="form-group">
-            <h1 style="text-align: center">Ajouter une nouvelle tache</h1>
+            <h1>Ajouter une nouvelle tache</h1>
 
             <!-- Nom -->
             <label for="nom-tache" class="label-input">Nom</label>
             <input name="nom" type="text" class="form-control" id="nom-tache" aria-describedby="emailHelp"
-                   placeholder="Entrez le nom de votre tache" maxlength="30" required>
+                   placeholder="Entrez le nom de votre tache" maxlength="35" required>
             <small id="nomHelp" class="form-text text-muted">Nom de la tache (requis)</small>
 
             <!-- Description -->
@@ -51,7 +51,8 @@
 
 
             <label for="date_limite" class="label-input">Date de fin</label>
-            <input name="dateLimite" type="date" class="form-control" id="date_limite"
+            <input name="dateLimite" type="date" class="form-control" id="date_limite" min="{{ today.strftime
+            ("%Y-%m-%d") }}" max="{{ (today + max_day).strftime("%Y-%m-%d") }}"
                    placeholder="Entrer la date limite de votre tache" required>
             <small id="date_limiteHelp" class="form-text text-muted">Date de fin de la tache (requis).</small>
 
