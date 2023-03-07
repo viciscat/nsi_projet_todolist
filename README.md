@@ -1,4 +1,8 @@
 # nsi_projet_todolist
+
+Projet de NSI fait en terminale. <br>
+Computer class project made in last year of high school.
+
 | ID    | Description                                                                                                                                                                             | Priorité | Personne | Fini ? |
 |-------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|----------|--------|
 | FS1   | Afficher la liste des tâches par date d’échéance<br>croissante avec pour chaque tâche: titre, catégorie, date<br>échéance). Seules les tâches “Encours”et“Terminée”<br>seront affichées | Haute    |          | oui    |
